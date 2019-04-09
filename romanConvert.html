@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+<head>
+   <meta charset="utf-8">
+   <title>Roman numbers</title>
+    <style>
+        .romanNumbers {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            text-align: center;
+            max-width: 600px;
+            margin: auto;
+        }
+        .inputRoman, .buttonRoman {
+            text-align: center;
+            max-width: 100px;
+            align-self: center;
+            border-radius: 20px;
+            border: 2px solid black;
+            padding: 5px;
+            outline: none;
+        }
+        #RomanDisplay {
+            background-color: #d1d1d1;
+            max-width: 600px;
+            align-self: center;
+            padding: 20px;
+            visibility: hidden;
+            border-radius: 20px;
+            border: 2px solid black;
+        }
+    </style>
+</head>
+<body>
+<div class="romanNumbers">
+    <div>Insert integer number higher than zero and less then 5000: <br></div>
+    <div><br></div>
+    <input class="inputRoman" type="text" id="romanInsert" placeholder="Insert number">
+
+    <p>Click the button to convert it into a Roman number</p>
+
+    <button class="buttonRoman" onclick="checkInt()">BUTTON</button>
+
+    <p id="RomanDisplay"></p>
+</div>
+    
+<script>
+function checkInt() {
+    document.getElementById("RomanDisplay").style.visibility = "visible";
+    var x = document.getElementById("romanInsert").value;
+    if (isNaN(x)) {
+       document.getElementById("RomanDisplay").innerHTML = "Don`t joke with me, please insert a number! ";
+    } else {
+       let y = Number(x);
+       if (Number.isInteger(y) && y>0 && y<5000) {
+       romanConvert(x);
+       } 
+       else if (y>=5000){
+           document.getElementById("RomanDisplay").innerHTML = "This number is to big, <br> please insert integer number higher than 0 and less then 5000.";
+       } else {
+           document.getElementById("RomanDisplay").innerHTML = "Well, Romans didn`t have this kind of numbers, <br> please insert integer number higher than 0 and less then 5000.";    
+       }
+    }
+}
+function romanConvert(num){
+    var string = num.split("").reverse();
+    var roman = [];
+    var romanNumbers = [["I","IV","V","IX"],["X","XL","L","XC"],["C","CD","D","CM"],["M","M_V","_V","_X"]];
+    var arabNumbers = [1,4,5,9];
+
+    for (i=0; i<string.length; i++){
+        var broj = Number(string[i]);
+        if (arabNumbers.indexOf(broj) >= 0){
+            var z = arabNumbers.indexOf(broj);
+            roman.push(romanNumbers[i][z]);
+        }
+        else if (broj > 1 && broj <4){
+            var counter = 0;
+            while (counter<broj){
+                counter += 1;
+                roman.push(romanNumbers[i][0]);
+            }     
+        }
+        else if (broj > 5 && broj <9){
+            broj = broj - 5;
+            var counter = 0;
+            while (counter<broj){
+                counter += 1;
+                roman.push(romanNumbers[i][0]);
+            } 
+            roman.push(romanNumbers[i][2]);
+        }
+    }
+    document.getElementById("RomanDisplay").innerHTML = roman.reverse().join("");
+}
+</script>
+
+</body>
+</html>
